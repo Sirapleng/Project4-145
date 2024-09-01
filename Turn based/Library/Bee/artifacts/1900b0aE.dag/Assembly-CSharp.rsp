@@ -353,10 +353,10 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -analyzer:"G:/Unity/2022.3.42f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"G:/Unity/2022.3.42f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
+"Assets/BattleHub.cs"
+"Assets/BattleSystem.cs"
 "Assets/Character/Bolt 2D JellyFarm VE2/ReadMe/Scripts/ReadmeVE2.cs"
 "Assets/Character/TopDown 2D RPG BE3/ReadMe/Scripts/ReadmeBE3.cs"
-"Assets/Script/BattleHUB.cs"
-"Assets/Script/BattleSystem.cs"
 "Assets/Script/MainMenu.cs"
 "Assets/Script/Unit.cs"
 -langversion:9.0
