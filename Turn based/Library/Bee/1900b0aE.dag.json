@@ -20134,7 +20134,7 @@
         "Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll",
         "Assets/Character/Bolt 2D JellyFarm VE2/ReadMe/Scripts/ReadmeVE2.cs",
         "Assets/Character/TopDown 2D RPG BE3/ReadMe/Scripts/ReadmeBE3.cs",
-        "Assets/Script/BattleHUB.cs",
+        "Assets/Script/BattleHUD.cs",
         "Assets/Script/BattleSystem.cs",
         "Assets/Script/MainMenu.cs",
         "Assets/Script/Unit.cs",
