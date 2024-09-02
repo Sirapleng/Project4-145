@@ -28,11 +28,26 @@ public class BattleSystem : MonoBehaviour
 
     public BattleState state;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START;
         StartCoroutine(SetupBattle());
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            audioManager.PlaySFX(audioManager.click);
+        }
     }
 
     IEnumerator SetupBattle()
@@ -118,13 +133,15 @@ public class BattleSystem : MonoBehaviour
         dialogueText.text = "Choose an action : ";
     }
 
-    public void OnAttackButton()
-    {
-        if (state != BattleState.PLAYERTURN)
-            return;
+public void OnAttackButton()
+{
+    if (state != BattleState.PLAYERTURN)
+        return;
 
-        StartCoroutine(PlayerAttack());
-    }
+    playerAction = ActionType.ATTACK;
+    audioManager.PlaySFX(audioManager.attack);
+    StartCoroutine(ExecuteTurn());
+}
 
     public void OnCriticalButton()
     {
@@ -132,6 +149,7 @@ public class BattleSystem : MonoBehaviour
             return;
 
         playerAction = ActionType.CRITICAL;
+        audioManager.PlaySFX(audioManager.critical);
         StartCoroutine(ExecuteTurn());
     }
 
@@ -141,11 +159,13 @@ public class BattleSystem : MonoBehaviour
             return;
 
         playerAction = ActionType.PARRY;
+        audioManager.PlaySFX(audioManager.parry);
         StartCoroutine(ExecuteTurn());
     }
 
     IEnumerator ExecuteTurn()
     {
+        audioManager.PlaySFX(audioManager.click);
         enemyAction = (ActionType)Random.Range(0, 3);
         dialogueText.text = "Enemy chose " + enemyAction.ToString();
 
@@ -156,41 +176,45 @@ public class BattleSystem : MonoBehaviour
 
         if (playerAction == ActionType.ATTACK && enemyAction == ActionType.PARRY)
         {
-            dialogueText.text = "Enemy parried your attack!";
-            enemyWinsRound = true;
-        }
-
-        else if (playerAction == ActionType.CRITICAL && enemyAction == ActionType.ATTACK)
-        {
-            enemyUnit.TakeDamage(2);
-            dialogueText.text = "Landed a critical hit!";
+            dialogueText.text = "You broke through the enemy's parry!";
+            enemyUnit.TakeDamage(playerUnit.damage);
             enemyHUD.SetHP(enemyUnit.currentHP);
             playerWinsRound = true;
         }
 
         else if (playerAction == ActionType.PARRY && enemyAction == ActionType.CRITICAL)
         {
-            dialogueText.text = "Parried the enemy's critical attack!";
+            dialogueText.text = "You parried the enemy's critical!";
+            playerWinsRound = true;
+        }
+
+        else if (playerAction == ActionType.CRITICAL && enemyAction == ActionType.ATTACK)
+        {
+            dialogueText.text = "You crushed the enemy's attack!";
+            enemyUnit.TakeDamage(2);
+            enemyHUD.SetHP(enemyUnit.currentHP);
             playerWinsRound = true;
         }
 
         else if (enemyAction == ActionType.ATTACK && playerAction == ActionType.PARRY)
         {
-            dialogueText.text = "Parried the enemy's attack!";
-            playerWinsRound = true;
-        }
-
-        else if (enemyAction == ActionType.CRITICAL && playerAction == ActionType.ATTACK)
-        {
-            playerUnit.TakeDamage(2);
-            dialogueText.text = "Enemy landed a critical hit!";
+            dialogueText.text = "Enemy broke through your parry!";
+            playerUnit.TakeDamage(enemyUnit.damage);
             playerHUD.SetHP(playerUnit.currentHP);
             enemyWinsRound = true;
         }
 
         else if (enemyAction == ActionType.PARRY && playerAction == ActionType.CRITICAL)
         {
-            dialogueText.text = "Enemy parried your critical attack!";
+            dialogueText.text = "Enemy parried your critical!";
+            enemyWinsRound = true;
+        }
+
+        else if (enemyAction == ActionType.CRITICAL && playerAction == ActionType.ATTACK)
+        {
+            dialogueText.text = "Enemy crushed your attack!";
+            playerUnit.TakeDamage(2);
+            playerHUD.SetHP(playerUnit.currentHP);
             enemyWinsRound = true;
         }
 
@@ -200,6 +224,20 @@ public class BattleSystem : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.5f);
+
+        if (playerUnit.currentHP <= 0)
+        {
+            state = BattleState.LOST;
+            EndBattle();
+            yield break;
+        }
+
+        else if (enemyUnit.currentHP <= 0)
+        {
+            state = BattleState.WON;
+            EndBattle();
+            yield break;
+        }
 
         if (playerWinsRound && playerAction == ActionType.PARRY)
         {

@@ -5,13 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField]
+    AudioManager audioManager;
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            audioManager.PlaySFX(audioManager.click);
+        }
+    }
+
     public void PlayGame()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync("SampleScene");
+        audioManager.PlaySFX(audioManager.click);
+    }
+    public void MainManu()
+    {
+        SceneManager.LoadSceneAsync("Main Manu");
+        audioManager.PlaySFX(audioManager.click);
     }
 
     public void QuitGame()
     {
         Application.Quit();
+        audioManager.PlaySFX(audioManager.click);
     }
 }

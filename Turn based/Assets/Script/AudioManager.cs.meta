@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: feef75a6df2b8bd47b1bb81de5695abb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - musicSoures: {instanceID: 0}
+  - SFXSoures: {instanceID: 0}
+  - background: {fileID: 8300000, guid: 28fea0edd6ab5864294439fcbfe8726c, type: 3}
+  - attack: {fileID: 8300000, guid: d112cd0362337e84d8737a3e8c312bb5, type: 3}
+  - critical: {fileID: 8300000, guid: 6b26af7bfcf6ebb41b3ce742be68234a, type: 3}
+  - parry: {fileID: 8300000, guid: ad1ecc5cc81e5b24493b1aff1f74256f, type: 3}
+  - click: {fileID: 8300000, guid: ec565d202cf1aac4c994765a9da25353, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

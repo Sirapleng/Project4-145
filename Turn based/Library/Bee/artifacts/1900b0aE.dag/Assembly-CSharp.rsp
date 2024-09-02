@@ -355,6 +355,7 @@
 -analyzer:"G:/Unity/2022.3.42f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Character/Bolt 2D JellyFarm VE2/ReadMe/Scripts/ReadmeVE2.cs"
 "Assets/Character/TopDown 2D RPG BE3/ReadMe/Scripts/ReadmeBE3.cs"
+"Assets/Script/AudioManager.cs"
 "Assets/Script/BattleHUD.cs"
 "Assets/Script/BattleSystem.cs"
 "Assets/Script/MainMenu.cs"
