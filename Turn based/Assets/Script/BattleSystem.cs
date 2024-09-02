@@ -26,6 +26,12 @@ public class BattleSystem : MonoBehaviour
     public BattleHUB playerHUD;
     public BattleHUB enemyHUD;
 
+    [SerializeField]
+    private GameObject lose;
+
+    [SerializeField]
+    private GameObject win;
+
     public BattleState state;
 
     AudioManager audioManager;
@@ -116,17 +122,19 @@ public class BattleSystem : MonoBehaviour
 
     void EndBattle()
     {
+        playerBattleStation.gameObject.SetActive(false);
+        enemyBattleStation.gameObject.SetActive(false);
+
         if (state == BattleState.WON)
         {
             dialogueText.text = "You won the battle!";
+            win.SetActive(true);
         }
-
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You were defeated.";
+            lose.SetActive(true);
         }
-
-
     }
     void PlayerTurn()
     {
@@ -287,6 +295,20 @@ public void OnAttackButton()
         {
             state = BattleState.PLAYERTURN;
             PlayerTurn();
+        }
+    }
+
+    public void CheckBattleOutcome()
+    {
+        if (enemyUnit.currentHP <= 0)
+        {
+            state = BattleState.WON;
+            EndBattle();
+        }
+        else if (playerUnit.currentHP <= 0)
+        {
+            state = BattleState.LOST;
+            EndBattle();
         }
     }
 }
