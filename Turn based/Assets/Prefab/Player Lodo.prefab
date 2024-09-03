@@ -187,8 +187,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2882699574192931992}
   - component: {fileID: 8827372446010171151}
+  - component: {fileID: 1361942923011693322}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player Lodo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +223,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5595b9afdb7affe4cb1046f761bddbff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Enemy
+  unitName: Ludo
   damage: 1
   maxHP: 10
   currentHP: 10
+--- !u!114 &1361942923011693322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980539146459451997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6daaedd9b0457b4bb3a45c6bb365436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterDB: {fileID: 11400000, guid: 8b3dd03823fbb7845b836caedc61e0c3, type: 2}
+  artworkSprite: {fileID: 0}

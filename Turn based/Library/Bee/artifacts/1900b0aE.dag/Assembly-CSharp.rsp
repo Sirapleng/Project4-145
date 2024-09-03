@@ -362,6 +362,7 @@
 "Assets/Script/Character.cs"
 "Assets/Script/CharacterDatabase.cs"
 "Assets/Script/MainMenu.cs"
+"Assets/Script/Player.cs"
 "Assets/Script/SimpleFlash.cs"
 "Assets/Script/Unit.cs"
 -langversion:9.0

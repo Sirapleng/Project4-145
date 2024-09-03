@@ -9,8 +9,17 @@ public enum ActionType { ATTACK, CRITICAL, PARRY }
 
 public class BattleSystem : MonoBehaviour
 {
-    public GameObject playerPrefab;
+    public GameObject playerLodoPrefab;
+    public GameObject playerLunaPrefab;
     public GameObject enemyPrefab;
+
+
+
+    public GameObject playerLodoDamagePanel;
+    public GameObject playerLodoHealPanel;
+
+    public GameObject playerLunaDamagePanel;
+    public GameObject playerLunaHealPanel;
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
@@ -48,6 +57,8 @@ public class BattleSystem : MonoBehaviour
     private GameObject lose;
 
     public BattleState state;
+
+    private GameObject playerGO;
 
     AudioManager audioManager;
 
@@ -88,13 +99,29 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
-        GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
-        playerUnit = playerGO.GetComponent<Unit>();
+        int selectedOption = PlayerPrefs.GetInt("selectedOption", 0);
+        GameObject playerGO;
+
+        if (selectedOption == 0)
+        {
+            playerGO = Instantiate(playerLodoPrefab, playerBattleStation);
+            playerUnit = playerGO.GetComponent<Unit>();
+            playerDamagePanel = playerLodoDamagePanel;
+            playerHealPanel = playerLodoHealPanel;
+            dialogueText.text = "Lodo is ready for battle!";
+        }
+
+        else
+        {
+            playerGO = Instantiate(playerLunaPrefab, playerBattleStation);
+            playerUnit = playerGO.GetComponent<Unit>();
+            playerDamagePanel = playerLunaDamagePanel;
+            playerHealPanel = playerLunaHealPanel;
+            dialogueText.text = "Luna is ready for battle!";
+        }
 
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
         enemyUnit = enemyGO.GetComponent<Unit>();
-
-        dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
@@ -207,6 +234,8 @@ public void OnAttackButton()
 
         playerAction = ActionType.CRITICAL;
         audioManager.PlaySFX(audioManager.critical);
+
+        dialogueText.text = playerUnit.unitName == "Lodo" ? "Lodo attacks!" : "Luna attacks!";
         StartCoroutine(ExecuteTurn());
     }
 

@@ -760,7 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSoures: {fileID: 990303664}
   SFXSoures: {fileID: 528777320}
-  background: {fileID: 8300000, guid: 28fea0edd6ab5864294439fcbfe8726c, type: 3}
+  background: {fileID: 8300000, guid: 8642cf032706c4e99bf9d99a7aa5607b, type: 3}
   attack: {fileID: 8300000, guid: d112cd0362337e84d8737a3e8c312bb5, type: 3}
   critical: {fileID: 8300000, guid: 6b26af7bfcf6ebb41b3ce742be68234a, type: 3}
   parry: {fileID: 8300000, guid: ad1ecc5cc81e5b24493b1aff1f74256f, type: 3}
@@ -1644,7 +1644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e054b806cf82f0438a389f2df9e8d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
+  audioManager: {fileID: 401187192}
 --- !u!1 &1095575699
 GameObject:
   m_ObjectHideFlags: 0
