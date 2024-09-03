@@ -22,15 +22,30 @@ public class BattleSystem : MonoBehaviour
     Unit enemyUnit;
 
     public TMP_Text dialogueText;
+    public TMP_Text hpText;
+
+    private Unit unit;
 
     public BattleHUB playerHUD;
     public BattleHUB enemyHUD;
 
     [SerializeField]
-    private GameObject lose;
+    private GameObject playerDamagePanel;
+
+    [SerializeField]
+    private GameObject enemyDamagePanel;
+
+    [SerializeField]
+    private GameObject playerHealPanel;
+
+    [SerializeField]
+    private GameObject enemyHealPanel;
 
     [SerializeField]
     private GameObject win;
+
+    [SerializeField]
+    private GameObject lose;
 
     public BattleState state;
 
@@ -56,6 +71,21 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    public void SetHUD(Unit unit)
+    {
+        this.unit = unit;
+    }
+
+    public void SetHP(int hp)
+    {
+        hpText.text = "HP: " + hp;
+    }
+
+    public int GetHP()
+    {
+        return unit.currentHP;
+    }
+
     IEnumerator SetupBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
@@ -78,9 +108,18 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerAttack()
     {
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
-
         enemyHUD.SetHP(enemyUnit.currentHP);
         dialogueText.text = "The attack is successful!";
+
+        if (enemyUnit.currentHP < enemyUnit.maxHP)
+        {
+            if (enemyDamagePanel.TryGetComponent<SimpleFlash>(out SimpleFlash flash))
+            {
+                flash.Flash();
+            }
+
+            StartCoroutine(FlashPanel(enemyDamagePanel, enemyBattleStation.gameObject));
+        }
 
         yield return new WaitForSeconds(2f);
 
@@ -103,11 +142,20 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
-
         playerHUD.SetHP(playerUnit.currentHP);
+
+        if (playerUnit.currentHP < playerHUD.GetHP())
+        {
+            if (playerDamagePanel.TryGetComponent<SimpleFlash>(out SimpleFlash flash))
+            {
+                flash.Flash();
+            }
+            StartCoroutine(FlashPanel(playerDamagePanel, playerBattleStation.gameObject));
+        }
+
         yield return new WaitForSeconds(1.5f);
 
-        if(isDead)
+        if (isDead)
         {
             state = BattleState.LOST;
             EndBattle();
@@ -130,6 +178,7 @@ public class BattleSystem : MonoBehaviour
             dialogueText.text = "You won the battle!";
             win.SetActive(true);
         }
+
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You were defeated.";
@@ -188,12 +237,14 @@ public void OnAttackButton()
             enemyUnit.TakeDamage(playerUnit.damage);
             enemyHUD.SetHP(enemyUnit.currentHP);
             playerWinsRound = true;
+            StartCoroutine(FlashPanel(enemyDamagePanel, enemyBattleStation.gameObject));
         }
 
         else if (playerAction == ActionType.PARRY && enemyAction == ActionType.CRITICAL)
         {
             dialogueText.text = "You parried the enemy's critical!";
             playerWinsRound = true;
+            StartCoroutine(FlashPanel(playerHealPanel, playerBattleStation.gameObject));
         }
 
         else if (playerAction == ActionType.CRITICAL && enemyAction == ActionType.ATTACK)
@@ -202,6 +253,7 @@ public void OnAttackButton()
             enemyUnit.TakeDamage(2);
             enemyHUD.SetHP(enemyUnit.currentHP);
             playerWinsRound = true;
+            StartCoroutine(FlashPanel(enemyDamagePanel, enemyBattleStation.gameObject));
         }
 
         else if (enemyAction == ActionType.ATTACK && playerAction == ActionType.PARRY)
@@ -210,12 +262,14 @@ public void OnAttackButton()
             playerUnit.TakeDamage(enemyUnit.damage);
             playerHUD.SetHP(playerUnit.currentHP);
             enemyWinsRound = true;
+            StartCoroutine(FlashPanel(playerDamagePanel, playerBattleStation.gameObject));
         }
 
         else if (enemyAction == ActionType.PARRY && playerAction == ActionType.CRITICAL)
         {
             dialogueText.text = "Enemy parried your critical!";
             enemyWinsRound = true;
+            StartCoroutine(FlashPanel(enemyHealPanel, enemyBattleStation.gameObject));
         }
 
         else if (enemyAction == ActionType.CRITICAL && playerAction == ActionType.ATTACK)
@@ -224,6 +278,7 @@ public void OnAttackButton()
             playerUnit.TakeDamage(2);
             playerHUD.SetHP(playerUnit.currentHP);
             enemyWinsRound = true;
+            StartCoroutine(FlashPanel(playerDamagePanel, playerBattleStation.gameObject));
         }
 
         else
@@ -298,17 +353,14 @@ public void OnAttackButton()
         }
     }
 
-    public void CheckBattleOutcome()
+    IEnumerator FlashPanel(GameObject panel, GameObject station)
     {
-        if (enemyUnit.currentHP <= 0)
-        {
-            state = BattleState.WON;
-            EndBattle();
-        }
-        else if (playerUnit.currentHP <= 0)
-        {
-            state = BattleState.LOST;
-            EndBattle();
-        }
+        panel.SetActive(true);
+        station.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        panel.SetActive(false);
+        station.SetActive(true);
     }
 }

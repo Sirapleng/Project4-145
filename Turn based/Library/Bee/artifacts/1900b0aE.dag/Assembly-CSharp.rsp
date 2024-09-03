@@ -360,6 +360,7 @@
 "Assets/Script/BattleSystem.cs"
 "Assets/Script/MainMenu.cs"
 "Assets/Script/Unit.cs"
+"Assets/SimpleFlash.cs"
 -langversion:9.0
 /deterministic
 /optimize+

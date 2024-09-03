@@ -10,8 +10,11 @@ public class BattleHUB : MonoBehaviour
     public TMP_Text hpText;
     public Slider hpSlider;
 
+    private Unit unit;
+
     public void SetHUD(Unit unit)
     {
+        this.unit = unit;
         nameText.text = unit.unitName;
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
@@ -23,5 +26,10 @@ public class BattleHUB : MonoBehaviour
     {
         hpSlider.value = hp;
         hpText.text = hp + "/" + hpSlider.maxValue;
+    }
+
+    public int GetHP()
+    {
+        return (int)hpSlider.value;
     }
 }
