@@ -16,14 +16,21 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    public void PlayGame()
-    {
-        SceneManager.LoadSceneAsync("SampleScene");
-        audioManager.PlaySFX(audioManager.click);
-    }
     public void MainManu()
     {
         SceneManager.LoadSceneAsync("Main Manu");
+        audioManager.PlaySFX(audioManager.click);
+    }
+
+    public void SelectCharacter()
+    {
+        SceneManager.LoadSceneAsync("Select Character");
+        audioManager.PlaySFX(audioManager.click);
+    }
+
+    public void PlayGame()
+    {
+        SceneManager.LoadSceneAsync("Game Play");
         audioManager.PlaySFX(audioManager.click);
     }
 

@@ -358,9 +358,12 @@
 "Assets/Script/AudioManager.cs"
 "Assets/Script/BattleHUD.cs"
 "Assets/Script/BattleSystem.cs"
+"Assets/Script/CharactarManager.cs"
+"Assets/Script/Character.cs"
+"Assets/Script/CharacterDatabase.cs"
 "Assets/Script/MainMenu.cs"
+"Assets/Script/SimpleFlash.cs"
 "Assets/Script/Unit.cs"
-"Assets/SimpleFlash.cs"
 -langversion:9.0
 /deterministic
 /optimize+
